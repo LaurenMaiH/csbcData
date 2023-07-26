@@ -152,7 +152,6 @@ def doEverything(url):
 # for url in urls2022:
 #     doEverything(url)
 
-df2023 = pd.read_csv('csbcData.csv')
 def parseScoresAndRanks(numArray):
     listNums = numArray.strip("[]").replace("'", "").split()
     return listNums
@@ -341,11 +340,11 @@ class printInfo:
 
 
 
-# infoSchool = 'Scripps Ranch High School'
-# div = 'Division 5A'
-# dfUsed = pd.read_csv('csbcData2021.csv')
-# Scripps = printInfo(infoSchool, div, dfUsed)
-# Scripps.lineGraph()
-# Scripps.printPercentiles()
-# Scripps.printRanks()
+infoSchool = 'Scripps Ranch High School'
+div = 'Division 5A'
+dfUsed = pd.read_csv('csbcData2021.csv')
+Scripps = printInfo(infoSchool, div, dfUsed)
+Scripps.lineGraph()
+Scripps.printPercentiles()
+Scripps.printRanks()
 
