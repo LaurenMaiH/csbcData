@@ -4,14 +4,15 @@ sys.dont_write_bytecode = True
 import seaborn as sns
 import streamlit as st
 import matplotlib
-matplotlib.use('agg')  # Use the Qt5Agg backend
 
-import matplotlib.pyplot as plt
+#matplotlib.use('TkAgg')  # Replace 'TkAgg' with the backend of your choice
+
+matplotlib.use('agg')  # Use the Qt5Agg backend
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 from scipy import stats
-
+plt.style.use("dark_background")
 
 
 #change lineGraph to find division champion instead of defaulting to Great Oak
@@ -23,16 +24,23 @@ def createViolinPlot(df, ex = "division", why = "TotalScore"):
 
 def compareAvgSchoolScoresToAvgDivisionScores(school, df):
     division = df.loc[df['school'] == school].iloc[0]["division"]
-
+    season = df.iloc[0]["season"]
+    
     div_df = df[df['division'] == division]
     division_avg = div_df.drop(['season', 'dayOfMonth'], axis=1).mean(numeric_only=True)
-    div_avg_scores = division_avg.iloc[:24]
-    div_avg_ranks = division_avg.iloc[25:]
+    
+    
 
     school_df = div_df[div_df['school'] == school]
     school_avg = school_df.drop(['season', 'dayOfMonth'], axis=1).mean(numeric_only=True)
-    school_avg_scores = school_avg.iloc[:24]
-    school_avg_ranks = school_avg.iloc[25:]
+    
+    
+
+    labels = ['MusicPerf Ens', 'MusicPerf Ind', 'MusicPerf SubTotal', 'VisualPerf Ens', 'VisualPerf Ind', 'VisualPerf Subtotal', 'Performance Total', 'GE Music CE', 'GE Music PE', 'GE Music Subtotal', 'GE Visual CE', 'GE Visual PE', 'GE Visual Subtotal', 'GE Total', 'Perc Cont', 'Perc Ach', 'PercTotal', 'Perc ScaledTotal', 'Guard Cont', 'Guard Ach', 'Guard Total', 'Guard ScaledTotal', 'Sub Total', 'Timing/Penalties', 'Total']
+    # labels = df.columns[7:32]
+    div_avg_scores = division_avg.iloc[:25] #used to be 24
+    school_avg_scores = school_avg.iloc[:25] #used to be 24
+
 
     # Create an array of x-axis positions for the bars
     x = range(len(div_avg_scores))
@@ -42,13 +50,12 @@ def compareAvgSchoolScoresToAvgDivisionScores(school, df):
     fig, ax = plt.subplots()
 
     division_bars = ax.bar(x, div_avg_scores, width, color='#DD517F', label=f'{division}')
-    school_bars = ax.bar([i + width for i in x], school_avg_scores, width, color='#461E52', label=school)
+    school_bars = ax.bar([i + width for i in x], school_avg_scores, width, color='#FFD700', label=school)
 
     ax.set_xlabel('Category')
     ax.set_ylabel('Average Score')
 
-    labels = ['MusicPerf Ens', 'MusicPerf Ind', 'MusicPerf SubTotal', 'VisualPerf Ens', 'VisualPerf Ind', 'VisualPerf Subtotal', 'Performance Total', 'GE Music CE', 'GE Music PE', 'GE Music Subtotal', 'GE Visual CE', 'GE Visual PE', 'GE Visual Subtotal', 'GE Total', 'Perc Cont', 'Perc Ach', 'Perc ScaledTotal', 'Guard Cont', 'Guard Ach', 'Guard Total', 'Guard ScaledTotal', 'Sub Total', 'Timing/Penalties', 'Total']
-
+    
     ax.set_xticks([i + width / 2 for i in x])
     ax.set_xticklabels(labels, rotation=90)
     ax.legend()
@@ -63,13 +70,12 @@ def compareAvgSchoolScoresToAvgDivisionScores(school, df):
     for bar in school_bars:
         height = bar.get_height()
         ax.annotate(f'{height:.2f}', xy=(bar.get_x() + bar.get_width() / 2, height), xytext=(0, 3),
-                    textcoords="offset points", ha='center', va='bottom', color='#461E52', rotation=90)
+                    textcoords="offset points", ha='center', va='bottom', color='#FFD700', rotation=90)
 
     plt.title('Average Scores Comparison')
     plt.tight_layout()
 
     st.pyplot(fig) # instead of plt.show()
-
 
 def findCompetitors(school, df):
         division = df.loc[df['school'] == school].iloc[0]["division"]
@@ -115,8 +121,8 @@ def findCompetitors(school, df):
 def lineGraph(school, df):
         division = df.loc[df['school'] == school].iloc[0]["division"]
         competitorsAndTarget = findCompetitors(school,  df)
-        if "The Spirit of Great Oak" not in competitorsAndTarget:
-            competitorsAndTarget.append('The Spirit of Great Oak')
+        # if "The Spirit of Great Oak" not in competitorsAndTarget:
+        #     competitorsAndTarget.append('The Spirit of Great Oak')
         if school not in competitorsAndTarget:
              competitorsAndTarget.append(school)
         lineFig = plt.figure(figsize=(10, 6))
@@ -156,6 +162,7 @@ def lineGraph(school, df):
         # Display the graph
         plt.tight_layout()
         st.pyplot(lineFig) # instead of plt.show()
+      
 
 
 def calculatePercentiles(school, df, return_type = "dictionary"):
@@ -186,18 +193,79 @@ def calculatePercentiles(school, df, return_type = "dictionary"):
     if return_type == "arr":
          return percentiles
          
-def averageSchoolScoresAndRanks(school, df):
+def averageSchoolScoresAndRanks(school, df, rType = "default"):
     school_df = df[df['school'] == school]
     school_avg = school_df.drop(['season', 'dayOfMonth'], axis=1).mean(numeric_only=True)
     school_avg_scores = school_avg.iloc[:24]
     school_avg_ranks = school_avg.iloc[25:]
-
-    return school_avg_ranks, school_avg_scores
+    if rType == "default":
+        return school_avg_ranks, school_avg_scores
+    elif rType == "both":
+        return school_avg
     
+def getAvgs(school, df, ntype = "sandr"):
+     if(ntype == "s"):
+        return averageSchoolScoresAndRanks(school, df)[1]
+     elif(ntype == "r"):
+        return averageSchoolScoresAndRanks(school, df)[0]
+     else:
+        return averageSchoolScoresAndRanks(school, df, "both")
 
 
+def compareSchooltoSchool(school1, school2, df):
+    division1 = df.loc[df['school'] == school1].iloc[0]["division"]
+    division2 = df.loc[df['school'] == school2].iloc[0]["division"]
+    div_df1 = df[df['division'] == division1]
+    
+    div_df2 = df[df['division'] == division2]
 
-dfUsed = pd.read_csv('csbcData2022.csv')
 
-createViolinPlot(dfUsed)
+    school1_df = df[df['school'] == school1]
+    school1_avg = school1_df.drop(['season', 'dayOfMonth'], axis=1).mean(numeric_only=True)
+    school1_avg_scores = school1_avg.iloc[:24]
+    school1_avg_ranks = school1_avg.iloc[25:]
+
+    school2_df = df[df['school'] == school2]
+    if school2 == "Scripps Ranch High School":
+        mask = school2_df['comp'] == 'Valhalla Field Tournament'
+        school2_df = school2_df[~mask]
+
+    school2_avg = school2_df.drop(['season', 'dayOfMonth'], axis=1).mean(numeric_only=True)
+    school2_avg_scores = school2_avg.iloc[:24]
+    school2_avg_ranks = school2_avg.iloc[25:]
+
+    # Create an array of x-axis positions for the bars
+    x = range(len(school2_avg_scores))
+
+    width = 0.35  # Width of the bars
+
+    fig, ax = plt.subplots()
+
+    school1_bars = ax.bar(x, school1_avg_scores, width, color='#00bbf3', label=f'{school1}') #usd to be division
+    school2_bars = ax.bar([i + width for i in x], school2_avg_scores, width, color='#f3d165', label=school2)
+
+    ax.set_xlabel('Category')
+    ax.set_ylabel('Average Score')
+
+    labels = ['MusicPerf Ens', 'MusicPerf Ind', 'MusicPerf SubTotal', 'VisualPerf Ens', 'VisualPerf Ind', 'VisualPerf Subtotal', 'Performance Total', 'GE Music CE', 'GE Music PE', 'GE Music Subtotal', 'GE Visual CE', 'GE Visual PE', 'GE Visual Subtotal', 'GE Total', 'Perc Cont', 'Perc Ach', 'Perc ScaledTotal', 'Guard Cont', 'Guard Ach', 'Guard Total', 'Guard ScaledTotal', 'Sub Total', 'Timing/Penalties', 'Total']
+
+    ax.set_xticks([i + width / 2 for i in x]) 
+    ax.set_xticklabels(labels, rotation=90)
+    ax.legend()
+
+    # Label the division bars
+    for bar in school1_bars:
+        height = bar.get_height()
+        ax.annotate(f'{height:.2f}', xy=(bar.get_x() + bar.get_width() / 2, height), xytext=(0, 3),
+                    textcoords="offset points", ha='center', va='bottom', color='#00bbf3', rotation=90)
+
+    # Label the school bars
+    for bar in school2_bars:
+        height = bar.get_height()
+        ax.annotate(f'{height:.2f}', xy=(bar.get_x() + bar.get_width() / 2, height), xytext=(0, 3),
+                    textcoords="offset points", ha='center', va='bottom', color='#f3d165', rotation=90)
+
+    plt.title('Average Scores Comparison')
+    plt.tight_layout()
+    st.pyplot(fig) # instead of plt.show()
 
