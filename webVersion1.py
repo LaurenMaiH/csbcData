@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 
 st.set_page_config(
-    page_title="CSBC Stats",
+    page_title="CSBC DATA",
     page_icon="🎺",
     layout = "wide"
 
