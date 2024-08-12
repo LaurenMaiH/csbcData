@@ -113,7 +113,7 @@ And much more, tailored to your specific questions and needs.
     st.write("\n")
     st.divider()
     st.write("CSBC Stats is constantly improving! Please report any issues [here](https://forms.gle/jySUDsGwNeoS3DZJ7).")
-    st.write("☕ Made and maintained by Lauren Henderson. If you found this site useful, please consider supporting me wtih [a delicious coffee]().")
+    st.write("☕ Made and maintained by Lauren Henderson. If you found this site useful, please consider supporting me wtih [a delicious coffee](https://ko-fi.com/laurenhenderson265).")
     st.write("⭐ If you're interested in obtaining my data, or a personalized, custom data report, visit the Custom Data tab. Thanks for your time!")
 def findDataFrameOneYearBehind(year):
     if year != "2021":
