@@ -13,7 +13,7 @@ st.set_page_config(
 uiCols = ['MusicPerf Ens Score', 'MusicPerf Ind Score', 'MusicPerf SubTotal Score', 'VisualPerf Ens Score', 'VisualPerf Ind Score', 'VisualPerf Subtotal Score', 'Performance Total Score', 'GE Music CE Score', 'GE Music PE Score', 'GE Music Subtotal Score', 'GE Visual CE Score', 'GE Visual PE Score', 'GE Visual Subtotal Score', 'GE Total Score', 'Perc Cont Score', 'Perc Ach Score', 'PercTotal Score', 'Perc ScaledTotal Score', 'Guard Cont Score', 'Guard Ach Score', 'Guard Total Score', 'Guard ScaledTotal Score', 'Sub Total Score', 'Timing/Penalties', 'Total Score', 'MusicPerf Ens Rank', 'MusicPerf Ind Rank', 'MusicPerf SubTotal Rank', 'VisualPerf Ens Rank', 'VisualPerf Ind Rank', 'VisualPerf Subtotal Rank', 'Performance Total Rank', 'GE Music CE Rank', 'GE Music PE Rank', 'GE Music Subtotal Rank', 'GE Visual CE Rank', 'GE Visual PE Rank', 'GE Visual Subtotal Rank', 'GE Total Rank', 'Perc Cont Rank', 'Perc Ach Rank', 'PercTotal Rank', 'Perc ScaledTotal Rank', 'Guard Cont Rank', 'Guard Ach Rank', 'Guard Total Rank', 'Guard ScaledTotal Rank', 'Sub Total Rank', 'Total Rank']
 
 def main():
-    st.title("CSBC Stats")
+    st.title("CSBC DATA")
     
     year = st.selectbox("Select year", ["2021", "2022", "2023"])
     

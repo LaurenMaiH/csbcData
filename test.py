@@ -32,3 +32,4 @@ df = pd.read_csv('csbcData2023.csv')
 
 # Function to convert values in the 'Scores' column to floats
 
+

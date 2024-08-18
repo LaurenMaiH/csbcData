@@ -377,5 +377,4 @@ s = "Scripps Ranch High School"
 # print(dfUsed1.columns)
 # print(len(dfUsed1.columns))
 
-
-print(filtered.head())
+getScoreBoardFromMostRecentScores(dfUsed, "Division 5A", ['TotalScore'])
