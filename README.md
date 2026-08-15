@@ -11,7 +11,7 @@ Marching band and color guard programs generate a surprising amount of data ever
 
 CSBCDATA started as a personal tool to answer questions my program couldn't easily answer. Eventually, it grew into a web application other CSBC directors could use. Our performances generate the data, the data informs the next rehearsal, and the next performance generates better data.
 
-## What it does
+## what it does
 
 - **Season summaries** — five-number statistical summaries of a school's scores across the season
 - **Progress tracking** — line charts of total score over time, plotted against a school's closest competitors
@@ -24,7 +24,7 @@ CSBCDATA started as a personal tool to answer questions my program couldn't easi
 All of it maps to the CSBC judging rubric: music performance (ensemble / individual), visual performance, general effect (music and visual), percussion, color guard, and timing/penalties.
 
 
-## Tech stack
+## tech stack
 
 - **Python**
 - **Streamlit** — interactive web app front end
@@ -34,7 +34,7 @@ All of it maps to the CSBC judging rubric: music performance (ensemble / individ
 - A custom web scraper that dynamically loads the CSBC score site and pulls results to local storage
 
 
-## How it works
+## how it works
 
 **Scraping → cleaning → analysis** is the pipeline.
 
@@ -48,7 +48,7 @@ A couple of the more interesting pieces:
 - **Percentile ranking** computes each school's season-average per category, then scores it against the distribution of all schools in its division.
 
 
-## Getting started
+## getting started (at your own peril)
 
 ```bash
 # 1. Clone the repo
@@ -78,12 +78,12 @@ seaborn
 ```
 
 
-## Data notes
+## data notes
 
 CSBCDATA works with publicly posted competition results (school names and judged scores). No private or personally identifying information is involved.
 
 
-## Status & roadmap
+## status & roadmap
 
 This project began as a self-taught high school build. It's here as a bit of a fossil, really.
 
